@@ -101,12 +101,12 @@ async def run(id, private_key, proxy, semaphore):
                     await page.click(f'div:text("Continue")', timeout=10000)
                     await asyncio.sleep(uniform(0.5, 0.9))
                     await page.click(f'xpath=/html/body/div[1]/div/div/div[2]/div/div[1]/div/div/div/div/div/div[1]/div[3]/div[2]/div[2]/div/div/div/div[1]/div[2]/div[2]/div[3]/div/div', timeout=10000)
-                    try:
-                        await page.wait_for_selector('div:text("Accept")', timeout=20000)
-                        logger.info(f'{id} Success Mint MonkeDao')
-                        return
-                    except:
-                        logger.error(f"{id} Error tx Mint MonkeDao")
+                    # try:
+                    #     await page.wait_for_selector('div:text("Accept")', timeout=20000)
+                    #     logger.info(f'{id} Success Mint MonkeDao')
+                    #     return
+                    # except:
+                    #     logger.error(f"{id} Error tx Mint MonkeDao")
                     
                     
         except Exception as ex:
