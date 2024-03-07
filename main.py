@@ -11,11 +11,11 @@ from utils import get_accounts, get_format_proxy, switch_to_page_by_title
 NEW_PASSWORD = "Password_12345"
 
 async def run(id, private_key, proxy, semaphore):
-    for _ in range(MAX_RETRY):
+    for tr in range(MAX_RETRY):
         try:
             async with semaphore:
                 # await gas_checker(id)
-                logger.info(f"{id} | START")
+                logger.info(f"{id} | START | Try {tr}/{MAX_RETRY}")
                 
                 
                 # Initialize the browser and context
@@ -84,17 +84,20 @@ async def run(id, private_key, proxy, semaphore):
 
                     await page.click(f'div:text("Restore Wallet Now")')
                     await asyncio.sleep(uniform(0.3, 0.7))
-                    await page.click(f'div:text("Continue")', timeout=50000)
+                    await page.click(f'div:text("Continue")', timeout=120000)
                     await asyncio.sleep(uniform(0.3, 0.7))
                     await page.click(f'div:text("Continue")', timeout=50000)
                     await asyncio.sleep(uniform(4, 5))
                     
                     if MODE == "MINT":
                         await mint_monkeDAO(id, context, page)
-                    elif MODE == "SWAP":
-                        await swap(id, context, page)
+                    # elif MODE == "SWAP":
+                    #     await swap(id, context, page)
+                    else:
+                        logger.error("Wrong mode")
                     
-                    logger.info(f"{id} | START")
+                    logger.info(f"{id} | FINALE")
+                    break
         except Exception as ex:
             logger.error(f"{id} Retry... | {traceback.format_exc()}, {ex} ")
             await asyncio.sleep(10)
