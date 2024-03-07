@@ -17,7 +17,6 @@ async def run(id, private_key, proxy, semaphore):
                 # await gas_checker(id)
                 logger.info(f"{id} | START | Try {tr}/{MAX_RETRY}")
                 
-                
                 # Initialize the browser and context
                 async with async_playwright() as p:
                     
@@ -55,8 +54,8 @@ async def run(id, private_key, proxy, semaphore):
                     # await page.close()
 
                     page = await switch_to_page_by_title(context, 'Magic Eden')
-                    url_extension = page.url
-                    await page.goto(url_extension)
+                    extension_url = page.url.split('/')[2].strip()
+                    await page.goto(f"chrome-extension://{extension_url}/onboarding.html")
                     await asyncio.sleep(uniform(0.3, 0.7))
                     
                     await page.click(f'div:text("I Have A Wallet")')
@@ -85,10 +84,10 @@ async def run(id, private_key, proxy, semaphore):
                     await page.click(f'div:text("Restore Wallet Now")')
                     await asyncio.sleep(uniform(0.3, 0.7))
                     await page.click(f'div:text("Continue")', timeout=120000)
-                    await asyncio.sleep(uniform(0.3, 0.7))
-                    await page.click(f'div:text("Continue")', timeout=50000)
-                    await asyncio.sleep(uniform(4, 5))
-                    
+                    await asyncio.sleep(uniform(10, 20))
+                    # await page.click(f'div:text("Continue")', timeout=120000)
+                    # await asyncio.sleep(uniform(4, 5))
+                    await page.goto(f"chrome-extension://{extension_url}/popup.html")
                     if MODE == "MINT":
                         await mint_monkeDAO(id, context, page)
                     # elif MODE == "SWAP":
