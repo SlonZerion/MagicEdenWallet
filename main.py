@@ -4,7 +4,7 @@ import traceback
 from playwright.async_api import async_playwright
 from random import uniform
 from loguru import logger
-from config import EXTENSION_PATH, MAX_RETRY, MODE, SWAP_COUNT, THREADS_NUM, USE_PROXY
+from config import EXTENSION_PATH, MAX_RETRY, MODE, THREADS_NUM, USE_PROXY
 
 from utils import get_accounts, get_format_proxy, switch_to_page_by_title
 
